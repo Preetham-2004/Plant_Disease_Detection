@@ -1,0 +1,17 @@
+# Backend-local secrets and runtime artifacts
+.env
+.env.*
+.env.example
+
+# Uploaded files and local user data should never be committed
+uploads/
+data/
+
+# Python cache / local environments
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+myenv/
+venv/
+.venv/

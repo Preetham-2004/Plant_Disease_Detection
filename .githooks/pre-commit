@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+staged_files=()
+while IFS= read -r file; do
+  staged_files+=("$file")
+done < <(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ "${#staged_files[@]}" -eq 0 ]; then
+  exit 0
+fi
+
+is_blocked_env_file() {
+  case "$1" in
+    .env|.env.*|*/.env|*/.env.*)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+blocked_env_files=()
+for file in "${staged_files[@]}"; do
+  if is_blocked_env_file "$file"; then
+    blocked_env_files+=("$file")
+  fi
+done
+
+if [ "${#blocked_env_files[@]}" -gt 0 ]; then
+  echo "Commit blocked: env files are staged."
+  echo "Remove them from the index before committing:"
+  for file in "${blocked_env_files[@]}"; do
+    echo "  git restore --staged \"$file\""
+  done
+  echo "This repository is configured to keep all .env-style files out of Git."
+  exit 1
+fi
+
+secret_matches="$(
+  git diff --cached --no-color -U0 -- "${staged_files[@]}" \
+    | grep '^+' \
+    | grep -Ev '^\+\+\+' \
+    | grep -E 'AIza[0-9A-Za-z_-]{20,}|gsk_[0-9A-Za-z]+|(GEMINI_API_KEY|GOOGLE_API_KEY|GROQ_API_KEY)[[:space:]]*[:=][[:space:]]*[^[:space:]]+' \
+    | grep -Evi 'VITE_FIREBASE_API_KEY|your_|example|placeholder|changeme|<[^>]+>|""|=[[:space:]]*$|:[[:space:]]*$' || true
+)"
+
+if [ -n "$secret_matches" ]; then
+  echo "Commit blocked: staged changes look like they contain a Google/Gemini API key."
+  echo "Review these added lines and replace real values with env lookups or placeholders:"
+  echo "$secret_matches"
+  exit 1
+fi
+
+exit 0
