@@ -17,7 +17,7 @@
 ## Demo
 
 <p align="center">
-  <a href="docs/demo/proj.mp4">Watch / Download the project demo</a>
+  <a href="docs/demo/proj.webm">Watch / Download the project demo</a>
 </p>
 
 > GitHub may show this as a downloadable video link depending on the viewer. Open `docs/demo/proj.mp4` for the full demo.
