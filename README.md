@@ -16,9 +16,11 @@
 
 ## Demo
 
-Add your demo video link here:
+<p align="center">
+  <a href="docs/demo/proj.mp4">Watch / Download the project demo</a>
+</p>
 
-`[Watch the demo](YOUR_VIDEO_LINK)`
+> GitHub may show this as a downloadable video link depending on the viewer. Open `docs/demo/proj.mp4` for the full demo.
 
 ## Why This Project Stands Out
 
