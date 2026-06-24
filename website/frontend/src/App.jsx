@@ -92,6 +92,7 @@ function App() {
   const [historyItems, setHistoryItems] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [authMessage, setAuthMessage] = useState("");
+  const [activeTreatmentKey, setActiveTreatmentKey] = useState("");
 
   const currentRegion = result && result.regions?.length > 0 ? result.regions[selectedRegionIndex] : null;
   const headline = currentRegion ? currentRegion.disease_label : "Plant Health";
@@ -141,6 +142,38 @@ function App() {
     );
   }, [currentUser?.uid]);
 
+  useEffect(() => {
+    if (!result || !currentRegion || currentRegion.disease_label === "Uncertain") {
+      return;
+    }
+
+    const requestKey = [
+      selectedRegionIndex,
+      currentRegion.disease_label,
+      currentRegion.selected_part,
+      selectedLanguage,
+    ].join("|");
+
+    if (treatmentPlans[selectedRegionIndex] || activeTreatmentKey === requestKey) {
+      return;
+    }
+
+    fetchTreatmentPlan(
+      selectedRegionIndex,
+      currentRegion.disease_label,
+      currentRegion.selected_part,
+      selectedLanguage,
+      requestKey,
+    );
+  }, [
+    activeTreatmentKey,
+    currentRegion,
+    result,
+    selectedLanguage,
+    selectedRegionIndex,
+    treatmentPlans,
+  ]);
+
   function redirectToSignIn(message = "Please sign in or create an account to upload and analyze images.") {
     setError("");
     setAuthMessage(isFirebaseConfigured ? message : firebaseConfigError);
@@ -171,7 +204,16 @@ function App() {
     setPreviewUrl(URL.createObjectURL(nextFile));
   }
 
-  async function fetchTreatmentPlan(index, disease_label, selected_part, language = selectedLanguage) {
+  async function fetchTreatmentPlan(
+    index,
+    disease_label,
+    selected_part,
+    language = selectedLanguage,
+    requestKey = "",
+  ) {
+    if (requestKey) {
+      setActiveTreatmentKey(requestKey);
+    }
     setIsGeneratingPlan(true);
     try {
       const treatmentRes = await fetch(`${API_BASE_URL}/api/treatment`, {
@@ -188,13 +230,18 @@ function App() {
         setTreatmentPlans((prev) => ({ ...prev, [index]: treatmentData.treatment_plan }));
         return treatmentData.treatment_plan;
       } else {
-        setTreatmentPlans((prev) => ({ ...prev, [index]: "Failed to load personalized treatment plan." }));
-        return "Failed to load personalized treatment plan.";
+        const errorPayload = await treatmentRes.json().catch(() => null);
+        const message =
+          errorPayload?.detail || "Failed to load personalized treatment plan.";
+        setTreatmentPlans((prev) => ({ ...prev, [index]: message }));
+        return message;
       }
     } catch {
-      setTreatmentPlans((prev) => ({ ...prev, [index]: "Error generating treatment plan." }));
-      return "Error generating treatment plan.";
+      const message = "Error generating treatment plan.";
+      setTreatmentPlans((prev) => ({ ...prev, [index]: message }));
+      return message;
     } finally {
+      setActiveTreatmentKey("");
       setIsGeneratingPlan(false);
     }
   }
@@ -243,6 +290,7 @@ function App() {
           primaryRegion.disease_label,
           primaryRegion.selected_part,
           selectedLanguage,
+          ["0", primaryRegion.disease_label, primaryRegion.selected_part, selectedLanguage].join("|"),
         );
       }
 
@@ -271,25 +319,12 @@ function App() {
   function handleRegionChange(e) {
     const newIdx = parseInt(e.target.value, 10);
     setSelectedRegionIndex(newIdx);
-    const region = result.regions[newIdx];
-    if (!treatmentPlans[newIdx] && region && region.disease_label !== "Uncertain") {
-      fetchTreatmentPlan(newIdx, region.disease_label, region.selected_part, selectedLanguage);
-    }
   }
 
   function handleLanguageChange(event) {
     const nextLanguage = event.target.value;
     setSelectedLanguage(nextLanguage);
     setTreatmentPlans({});
-
-    if (currentRegion && currentRegion.disease_label !== "Uncertain") {
-      fetchTreatmentPlan(
-        selectedRegionIndex,
-        currentRegion.disease_label,
-        currentRegion.selected_part,
-        nextLanguage,
-      );
-    }
   }
 
   function handleAuthSuccess(payload) {
