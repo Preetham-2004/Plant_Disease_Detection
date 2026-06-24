@@ -1,28 +1,54 @@
-# Plant Disease Prediction
+<h1 align="center">Plant Disease Prediction</h1>
 
-AI-powered crop disease detection and treatment guidance for tomato, potato, and eggplant using computer vision and deep learning.
+<p align="center">
+  AI-powered crop disease detection and treatment guidance for tomato, potato, and eggplant.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-Backend-234f1e?style=for-the-badge" alt="Python Backend" />
+  <img src="https://img.shields.io/badge/FastAPI-API-1f6f54?style=for-the-badge" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/React-Frontend-2b6cb0?style=for-the-badge" alt="React Frontend" />
+  <img src="https://img.shields.io/badge/TensorFlow-Classifier-c05621?style=for-the-badge" alt="TensorFlow" />
+  <img src="https://img.shields.io/badge/YOLOv8-Detection-6b46c1?style=for-the-badge" alt="YOLOv8" />
+</p>
+
+> A full-stack deep learning system that detects affected plant parts, predicts disease classes, and generates treatment guidance through a production-style web app.
 
 ## Demo
 
-Add your demo video link here.
+Add your demo video link here:
 
-## Highlights
+`[Watch the demo](YOUR_VIDEO_LINK)`
 
-- Detects and analyzes diseases across **3 crops**
-- Built on a unified dataset of **8,158 images** and **12,913 labeled objects**
-- Combines **YOLOv8** plant-part detection with **TensorFlow** disease classification
-- Delivers treatment guidance through a **React + FastAPI** web app
+## Why This Project Stands Out
+
+| Metric | Value |
+|---|---:|
+| Supported crops | **3** |
+| Unified dataset size | **8,158 images** |
+| Labeled objects | **12,913** |
+| Detection / disease classes | **6** |
+| Core models | **2** |
+| Split strategy | **80 / 20** |
+
+## Core Features
+
+- YOLOv8-based plant-part localization for more targeted disease analysis
+- TensorFlow-based classification pipeline for disease prediction and severity-oriented diagnosis
+- React + FastAPI application for upload, inference, visualization, and treatment guidance
+- Firebase-backed authentication and history flow for a more complete product experience
+- Organized `scripts/` and `docs/` structure for training, inference, verification, and reporting
 
 ## Tech Stack
 
 `Python` `FastAPI` `React` `TensorFlow` `YOLOv8` `Firebase`
 
-## Project Structure
+## Project Layout
 
 ```text
-website/    # Full-stack application
-scripts/    # Training, inference, verification, and dataset utilities
-docs/       # Guides and technical notes
+website/    full-stack application
+scripts/    training, inference, verification, and dataset utilities
+docs/       guides, reports, and project notes
 ```
 
 ## Quick Start
@@ -44,7 +70,7 @@ npm install
 npm run dev
 ```
 
-## Repository Guide
+## Where To Look
 
 - App code: `website/backend` and `website/frontend`
 - Training scripts: `scripts/training`
@@ -52,8 +78,8 @@ npm run dev
 - Verification scripts: `scripts/verification`
 - Documentation: `docs/guides`
 
-## Notes
+## Setup Notes
 
 - Keep real secrets only in local `.env` files
-- `.env.example` files are safe templates for setup
-- The current detector checkpoint is a YOLO detection model, with segmentation support possible if you later switch weights
+- Use `.env.example` files as safe setup templates
+- The current detector checkpoint is a YOLO detection model; segmentation support can be added later by swapping model weights
