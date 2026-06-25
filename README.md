@@ -85,3 +85,8 @@ npm run dev
 - Keep real secrets only in local `.env` files
 - Use `.env.example` files as safe setup templates
 - The current detector checkpoint is a YOLO detection model; segmentation support can be added later by swapping model weights
+
+## 👨‍💻 Contributors
+- **Preetham Bhat** – [LinkedIn](https://www.linkedin.com/in/preetham-bhat-p1104/) | [GitHub](https://github.com/Preetham-2004)  
+- **Pranav P Pathak** – [LinkedIn](https://www.linkedin.com/in/pranav-p-pathak-111373332/) | [GitHub](https://github.com/pranav-p-pathak)
+- **Thanmai S** – [LinkedIn](https://www.linkedin.com/in/thanmai-s-785067281/) | [GitHub](https://github.com/thanmai90) 
