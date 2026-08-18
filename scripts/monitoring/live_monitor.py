@@ -3,7 +3,7 @@
 Live Training Monitor - Real-time YOLOv8 Training Progress Display
 Shows epoch progress as training happens
 """
-
+# monitoring everything related to models performance
 import pandas as pd
 import os
 import time
