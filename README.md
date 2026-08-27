@@ -89,4 +89,17 @@ npm run dev
 ## 👨‍💻 Contributors
 - **Preetham Bhat** – [LinkedIn](https://www.linkedin.com/in/preetham-bhat-p1104/) | [GitHub](https://github.com/Preetham-2004)  
 - **Pranav P Pathak** – [LinkedIn](https://www.linkedin.com/in/pranav-p-pathak-111373332/) | [GitHub](https://github.com/pranav-p-pathak)
-- **Thanmai S** – [LinkedIn](https://www.linkedin.com/in/thanmai-s-785067281/) | [GitHub](https://github.com/thanmai90) 
+- **Thanmai S** – [LinkedIn](https://www.linkedin.com/in/thanmai-s-785067281/) | [GitHub](https://github.com/thanmai90)
+
+## 📄 Research Publication
+
+This work is associated with our published research:
+
+**“Multi-Plant Disease & Severity Detection In Single Species Using Deep Learning”**
+
+**Authors:** Preetham Bhat, Pranav P. Pathak, Thanmai S. 
+
+Presented at **ICADCS, 2026**.
+
+[📑 View Research Paper](https://ieeexplore.ieee.org/document/11583553)
+
